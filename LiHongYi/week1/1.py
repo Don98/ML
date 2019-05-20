@@ -41,7 +41,7 @@ if __name__ == '__main__':
     # print(train_data)
     
     #使用全梯度下降,进行一万次迭代
-    for i in range(1000000):
+    for i in range(10000):
         pre = np.dot(train_data,w)
         loss = pre - train_label
         w = np.sum((w.T - lr * train_data * loss / train_data.shape[1]).T,axis = 1) / train_data.shape[0]
