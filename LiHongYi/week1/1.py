@@ -40,7 +40,7 @@ def get_r2(pre,label):
 def all_dg(train_data,w,test_data,test_label,train_label,num):
     for i in range(num):
         pre = np.dot(train_data,w)
-        loss = pre - train_label
+        loss = 0.5 * (pre - train_label) ** 2 
         w = np.sum((w.T - lr * train_data * loss / train_data.shape[1]).T,axis = 1) / train_data.shape[0]
         
         w.resize((len(w)),1)
@@ -93,9 +93,6 @@ def all_ada(train_data,w,test_data,test_label,train_label,num):
 
 if __name__ == '__main__':
     train_data , train_label = get_train()
-    for i in train_label:
-        print(i)
-    exit()
     test_data , test_label = get_test()
     test_label.resize((test_label.shape[0],1))
     train_data = np.concatenate((np.ones((train_data.shape[0],1)),train_data),axis=1)
