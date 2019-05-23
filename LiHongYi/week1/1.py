@@ -40,8 +40,7 @@ def get_r2(pre,label):
 def all_dg(train_data,w,test_data,test_label,train_label,num):
     for i in range(num):
         pre = np.dot(train_data,w)
-        loss = pre - train_label
-        w = np.sum((w.T - lr * train_data * loss / train_data.shape[1]).T,axis = 1) / train_data.shape[0]
+        w = np.sum((w.T - lr * train_data * (pre - train_label) / train_data.shape[1]).T,axis = 1) / train_data.shape[0]
         
         w.resize((len(w)),1)
         
