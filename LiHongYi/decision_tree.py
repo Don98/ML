@@ -34,7 +34,7 @@ def generate_data(seed):
     
     return x,y.reshape((data_size_all,1))
    
-def calcShannonEnt(data):
+def getEnt(data):
     numEntries = len(data)
     labelCounts = {}
     for featVec in data:
@@ -59,7 +59,7 @@ def splitdata(data, axis, value):
 
 def chooseBestFeature(data):
     numFeature = len(data[0])-1
-    baseEntroy = calcShannonEnt(data)
+    baseEntroy = getEnt(data)
     bestInfoGain = 0.0
     bestFeature = -1
     for i in range(numFeature):
@@ -86,7 +86,7 @@ def majorityCnt(classList):
     sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(1), reverse=True)
     return sortedClassCount[0][0]
 
-def createTree(data, labels):
+def generate_tree(data, labels):
     classList = [example[-1] for example in data]
     if classList.count(classList[0]) == len(classList):
         return classList[0]
@@ -101,7 +101,7 @@ def createTree(data, labels):
     uniqueVals = set(featValues)
     for value in uniqueVals:
         subLabels = labels[:]
-        myTree[bestFeatLabel[0]][value] = createTree(splitdata(data, bestFeat, value), subLabels)
+        myTree[bestFeatLabel[0]][value] = generate_tree(splitdata(data, bestFeat, value), subLabels)
     return myTree
     
 
@@ -110,6 +110,6 @@ if __name__ == '__main__':
     data = np.hstack((x,y))
     data = list(data)
     x = list(x);y = list(y)
-    shannonEnt = calcShannonEnt(data)
-    tree = createTree(data, y)
+    shannonEnt = getEnt(data)
+    tree = generate_tree(data, y)
     print (tree)
